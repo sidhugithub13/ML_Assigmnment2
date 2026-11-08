@@ -51,10 +51,10 @@ Each model is trained on the same data and evaluated on the same held-out test s
 
 ```
 ML_Assigmnment2/
-├── app.py                 # Streamlit app
-├── notebook.ipynb         # data loading, cleaning, training and evaluation
-├── requirements.txt       # dependencies (scikit-learnpinned to 1.6.1)
-├── test_data.csv          # held-out test set (842 rows, with the is_spam label)
+├── app.py                                  # Streamlit app
+├── 2026AJ05658_ML_Sem1_ass2.ipynb          # data loading, cleaning, training and evaluation
+├── requirements.txt                        # dependencies (scikit-learnpinned to 1.6.1)
+├── test_data.csv                           # held-out test set (842 rows, with the is_spam label)
 ├── README.md
 └── model/
     ├── logistic_regression.joblib
@@ -92,7 +92,7 @@ Hyperparameters were left at their defaults (apart from `max_iter` and `n_neighb
 ### Evaluation Metrics
 
 - **Accuracy:** share of all predictions that are correct.
-- **AUC:** area under the ROC curve, computed from predicted spam probabilities; measures how well a model ranks spam above legitimate email across all thresholds.
+- **AUC:** Area Under the ROC curve. It is computed from predicted spam probabilities and measures how well a model ranks spam above legitimate email across all thresholds.
 - **Precision:** of the emails flagged as spam, the share that really were spam.
 - **Recall:** of the real spam, the share that was caught.
 - **F1:** harmonic mean of precision and recall.
@@ -102,11 +102,11 @@ Hyperparameters were left at their defaults (apart from `max_iter` and `n_neighb
 
 | ML Model Name | Observation about model performance |
 |---|---|
-| Logistic Regression | Best accuracy (0.9347), F1 (0.9170) and MCC (0.8634) of the five models, with an AUC (0.9768) almost equal to the best. Precision and recall are well balanced (0.9297 and 0.9048). The spam signal in this data appears to be largely linear in the scaled word and character frequencies, and the model is also fast and easy to interpret. |
-| Decision Tree | Clearly weaker than the top models, with the lowest AUC (0.9053) and an accuracy of 0.9074. Its precision and recall are nearly equal (0.8817 and 0.8869), so it is balanced but at a lower level. A single unpruned tree gives coarse probability estimates and likely overfits the training data, which would explain the low AUC. |
-| KNN | Good precision (0.9148) and AUC (0.9546), but the lowest recall (0.8631), so it misses more spam than the other models. Distance-based methods tend to struggle in a 57-dimensional space where most word-frequency values are zero, and the result depends on the scaling applied beforehand. Overall it sits mid-table. |
-| Naive Bayes | Highest recall (0.9524) but the lowest precision (0.7240), accuracy (0.8361) and MCC (0.6975): it catches almost all spam but also flags many legitimate emails as spam. Its AUC (0.9525) is high, so it ranks emails well, and the weak precision suggests the default 0.5 threshold is poorly suited to its probabilities. The independence assumption and Gaussian distribution are a poor fit for skewed, mostly-zero word frequencies. For a spam filter, the many false positives make it the least practical choice here. |
-| Support Vector Machine | Highest AUC (0.9772) and highest precision (0.9319), and within a whisker of Logistic Regression on accuracy (0.9323), F1 (0.9135) and MCC (0.8584). It is a strong, well-balanced model but slower to train and to score than Logistic Regression, and its gain in precision does not translate into better F1 or MCC. |
+| Logistic Regression | It has the best accuracy (0.9347), F1 (0.9170) and MCC (0.8634) of the five models, with an AUC (0.9768) almost equal to the best. Precision and recall are well balanced (0.9297 and 0.9048). The spam signal in this data appears to be largely linear in the scaled word and character frequencies, and the model is also fast and easy to interpret. |
+| Decision Tree | It is clearly weaker than the top models, with the lowest AUC (0.9053) and an accuracy of 0.9074. Its precision and recall are nearly equal (0.8817 and 0.8869), so it is balanced but at a lower level. A single unpruned tree gives coarse probability estimates and likely overfits the training data, which would explain the low AUC. |
+| KNN | It has good precision (0.9148) and AUC (0.9546), but the lowest recall (0.8631), so it misses more spam than the other models. Distance-based methods tend to struggle in a 57-dimensional space where most word-frequency values are zero, and the result depends on the scaling applied beforehand. Overall it sits mid-table. |
+| Naive Bayes | It has the highest recall (0.9524) but the lowest precision (0.7240), accuracy (0.8361) and MCC (0.6975) and it catches almost all spam but also flags many legitimate emails as spam. Its AUC (0.9525) is high, so it ranks emails well, and the weak precision suggests the default 0.5 threshold is poorly suited to its probabilities. The independence assumption and Gaussian distribution are a poor fit for skewed word frequencies that are mostly zero. For a spam filter, the many false positives make it the least practical choice here. |
+| Support Vector Machine | It has the highest AUC (0.9772) and highest precision (0.9319), and within a whisker of Logistic Regression on accuracy (0.9323), F1 (0.9135) and MCC (0.8584). It is a strong, well-balanced model but slower to train and to score than Logistic Regression, and its gain in precision does not translate into better F1 or MCC. |
 | **Overall, Winner for your dataset?** | **Logistic Regression.** It has the best accuracy, F1 and MCC, which are the metrics that best summarise balanced performance, and it is the simplest and fastest model. The Support Vector Machine is a very close runner-up with the best AUC and precision. The gap between the two is small: the 0.0024 difference in accuracy is only about two emails out of the 842 test emails, so the ranking could change on a different split. Naive Bayes is the one to avoid when false positives matter. |
 
 **Limitations.** Results come from a single train/test split and untuned models, so small differences between the top models should not be over-interpreted. Cross-validation and hyperparameter tuning would give a more reliable ranking.
@@ -115,7 +115,7 @@ Hyperparameters were left at their defaults (apart from `max_iter` and `n_neighb
 
 The app (`app.py`) evaluates the saved pipelines and does not retrain anything. It provides:
 
-- **Evaluate model:** choose one of the five classifiers and see Accuracy, AUC, Precision, Recall, F1 and MCC, a confusion matrix with TN/FP/FN/TP counts, a classification report and a preview of the data.
+- **Evaluaing the models:** choose one of the five classifiers and see Accuracy, AUC, Precision, Recall, F1 and MCC, a confusion matrix with TN/FP/FN/TP counts, a classification report and a preview of the data.
 - **Compare models:** all five models on the same data in one table, with the best value per metric highlighted, a bar chart and a "best model per metric" table.
 - **About:** a short summary of the dataset, method and metrics.
 - **CSV upload:** the bundled `test_data.csv` is loaded by default; a different labelled CSV with the same 57 feature columns plus `is_spam` can be uploaded from the sidebar. Clear error messages are shown if columns are missing or invalid.
@@ -129,6 +129,4 @@ python -m pip install -r requirements.txt
 python -m streamlit run app.py
 ```
 
-(On macOS or Linux, activate the environment with `source .venv/bin/activate`.)
-
-`scikit-learn` is pinned to version 1.6.1 in `requirements.txt` because the saved model files were created with that version.
+I have pinned `scikit-learn` to version 1.6.1 in `requirements.txt` because the saved model files were created with that version.
